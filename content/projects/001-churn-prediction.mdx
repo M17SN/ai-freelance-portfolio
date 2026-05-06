@@ -1,0 +1,72 @@
+---
+title: Customer Churn Prediction
+industry: E-commerce
+date: 2025-01-15
+tags: [Python, XGBoost, Scikit-learn, Pandas, SHAP]
+domain: Machine Learning
+difficulty: Mid-level
+status: Completed
+summary: Built a churn prediction system for a mid-size e-commerce company. Delivered a production-ready model with explainability layer and a risk dashboard for the customer success team.
+github: https://github.com/YOUR_USERNAME/ai-freelance-projects/tree/main/001-churn-prediction
+website: ""
+---
+
+## The Problem
+
+CartPulse, a mid-size e-commerce company with ~$40M ARR, was losing customers every month
+without any early warning. By the time the customer success team noticed, it was too late to intervene.
+The Head of Customer Success needed a system that flagged at-risk customers before they churned —
+and a way to present that to her team without requiring a data science background.
+
+## The Data
+
+Used the Telco Customer Churn dataset from Kaggle as a proxy for CartPulse's internal data.
+Key features: tenure, monthly charges, contract type, payment method, support ticket history,
+and service usage patterns. The dataset had ~7,000 rows with moderate class imbalance (~27% churn rate).
+
+## Approach
+
+### 1. Exploratory Data Analysis
+
+- Identified tenure and contract type as the strongest churn signals
+- Found that month-to-month customers with high monthly charges churned at 3x the rate of annual contract holders
+- Handled missing values in TotalCharges (11 rows) caused by zero-tenure customers
+
+### 2. Feature Engineering
+
+- Created `charges_per_tenure` ratio to capture value perception
+- Binned tenure into cohorts (new, growing, mature, loyal)
+- One-hot encoded categorical features
+
+### 3. Model Selection
+
+Tested Logistic Regression, Random Forest, and XGBoost.
+XGBoost won on AUC-ROC (0.847) and was chosen for its speed and explainability support.
+Addressed class imbalance using `scale_pos_weight`.
+
+### 4. Explainability
+
+Integrated SHAP values to explain individual predictions — critical for the CS team
+to understand _why_ a customer is flagged, not just _that_ they are.
+
+## Results
+
+| Metric    | Score |
+| --------- | ----- |
+| AUC-ROC   | 0.847 |
+| Precision | 0.72  |
+| Recall    | 0.68  |
+| F1 Score  | 0.70  |
+
+Top churn drivers: month-to-month contract, high monthly charges, no tech support, short tenure.
+
+## Deliverables
+
+- Production-ready XGBoost model with preprocessing pipeline
+- SHAP explainability layer per customer
+- CSV risk report: every customer scored with churn probability and top 3 risk factors
+- Plain-English executive summary for the VP
+
+## Client Rating
+
+★★★★☆ 4/5 — "The risk scores make sense to my team and we've already started using them in our weekly reviews. Would've liked a live dashboard but understood the scope."
