@@ -125,6 +125,14 @@ export default function About() {
           >
             GitHub
           </a>
+          <a
+            href="https://www.linkedin.com/in/abdulmohsen-ahmed-alghamdi/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ border: "1px solid var(--border)", borderRadius: "8px", padding: "10px 20px", color: "var(--text-primary)", textDecoration: "none", fontSize: "0.875rem" }}
+          >
+            LinkedIn
+          </a>
           <span style={{ color: "var(--text-secondary)", fontSize: "0.875rem" }}>mohsen.a.1424@gmail.com</span>
           <span style={{ color: "var(--text-secondary)", fontSize: "0.875rem" }}>+966 501-700-700</span>
         </div>

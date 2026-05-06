@@ -25,6 +25,14 @@ export default function NavLinks() {
         About
       </Link>
       <a
+        href="https://www.linkedin.com/in/abdulmohsen-ahmed-alghamdi/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="nav-link"
+      >
+        LinkedIn
+      </a>
+      <a
         href="https://github.com/M17SN/ai-freelance-projects"
         target="_blank"
         rel="noopener noreferrer"
