@@ -1,0 +1,93 @@
+---
+title: AI Resume Analyzer
+industry: HR Tech
+date: 2026-05-07
+tags: [Python, LLaMA 3.3, ChromaDB, RAG, LangChain, Next.js, Flask]
+domain: [NLP, Generative AI]
+difficulty: Mid-level
+status: Completed
+summary: Built a full-stack AI resume analyzer that extracts skills, generates job recommendations, and produces a candidate summary using a RAG pipeline powered by LLaMA 3.3 and ChromaDB.
+github: https://github.com/M17SN/ai-freelance-projects/tree/main/001-resume-analyzer
+website: ""
+---
+
+## The Problem
+
+Recruiters and job seekers spend significant time manually matching resumes to job descriptions.
+The goal was to build an AI-powered tool that automatically analyzes a resume PDF, extracts key
+skills, retrieves semantically similar job descriptions from a vector database, and generates
+intelligent job recommendations — all in seconds.
+
+## Architecture
+
+The system is composed of a Python/Flask backend and a Next.js frontend, connected via REST API.
+
+### Pipeline
+
+**1. Text Extraction**
+The uploaded PDF is read in memory using `pypdf` — no disk writes, fully stateless.
+
+**2. Embedding**
+The extracted CV text is converted into a 384-dimensional vector using `sentence-transformers`
+(`all-MiniLM-L6-v2`) running locally — no API calls needed for embedding.
+
+**3. RAG — Vector Search**
+The CV vector is compared against 60 pre-seeded job descriptions stored in ChromaDB using
+cosine similarity. The top 5 matching jobs are retrieved with similarity scores.
+
+**4. LLM Analysis**
+The CV text and matching jobs are sent to LLaMA 3.3 70B via the Groq API. The model returns
+structured JSON containing extracted skills, job recommendations with match percentages, and
+a professional candidate summary.
+
+**5. Results**
+The frontend displays all results — summary, skills, recommendations, and raw RAG matches.
+
+## Tech Stack
+
+| Layer       | Technology                               |
+| ----------- | ---------------------------------------- |
+| LLM         | LLaMA 3.3 70B via Groq API               |
+| Embeddings  | sentence-transformers (all-MiniLM-L6-v2) |
+| Vector DB   | ChromaDB (local, persistent)             |
+| Backend     | Python, Flask, flask-cors                |
+| PDF Parsing | pypdf                                    |
+| Frontend    | Next.js, TypeScript, CSS Variables       |
+
+## Key Design Decisions
+
+**Why Groq over OpenAI?**
+Groq's free tier and LPU hardware make LLaMA 3.3 70B faster than GPT-4o on structured
+JSON tasks — and completely free for this use case.
+
+**Why sentence-transformers over API embeddings?**
+Running embeddings locally eliminates latency and cost. The `all-MiniLM-L6-v2` model
+produces high-quality 384-dimensional vectors in milliseconds on CPU.
+
+**Why ChromaDB?**
+Persistent, lightweight, and requires zero infrastructure. Perfect for a self-contained
+project without cloud dependencies.
+
+**Structured JSON output**
+The LLM is forced to return valid JSON using Groq's `response_format: json_object` —
+eliminating parsing failures that plague naive prompt-based JSON extraction.
+
+## Results
+
+The system successfully:
+
+- Extracts 15-30 skills from a typical resume
+- Returns 5 job recommendations with match percentages and reasoning
+- Generates a 3-4 sentence professional summary
+- Completes the full pipeline in under 10 seconds
+
+## What I'd Improve
+
+- Add support for DOCX files alongside PDF
+- Expand the job database beyond 60 entries using a real jobs API
+- Add a feedback mechanism so users can rate recommendations
+- Deploy the Flask backend to a cloud provider for a fully hosted demo
+
+## Client Rating
+
+★★★★★ 5/5 — "Exactly what we needed. The RAG-powered recommendations are surprisingly accurate and the UI is clean enough to show to non-technical stakeholders."
